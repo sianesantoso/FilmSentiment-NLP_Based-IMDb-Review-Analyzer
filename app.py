@@ -74,20 +74,17 @@ st.markdown(
         margin-bottom:35px;
     }
 
-    .card {
-        background:white;
-        padding:30px;
-        border-radius:20px;
-        box-shadow:0px 8px 25px rgba(0,0,0,0.08);
+    .stTextArea textarea {
+    background-color: white !important;
+    border-radius: 15px !important;
+    border: 1px solid #e5e7eb !important;
+    padding: 15px !important;
+    font-size: 16px !important;
     }
 
-    .result-card {
-        background:white;
-        margin-top:25px;
-        padding:30px;
-        border-radius:20px;
-        text-align:center;
-        box-shadow:0px 8px 25px rgba(0,0,0,0.08);
+
+    .stTextArea textarea:focus {
+    border: 2px solid #2563eb !important;
     }
 
     .positive {
@@ -157,9 +154,9 @@ st.markdown(
 )
 
 user_input = st.text_area(
-    "✍️ Write your movie review in English",
+    "Write your movie review in English",
     placeholder=
-    "Example: The movie was fantastic, the story was amazing and the acting was great!",
+    "Example: The movie was very good !",
     height=200
 )
 
