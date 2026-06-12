@@ -97,8 +97,3 @@ The application will display :
 ### Prediction Result
 ![Prediction Result](screenshots/negative_sentiment.png)
 ![Prediction Result](screenshots/positive_sentiment.png)
-
-
-## 📄 License 
-
-This project is for educational and portfolio purposes.
