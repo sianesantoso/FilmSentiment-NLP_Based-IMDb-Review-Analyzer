@@ -1,97 +1,242 @@
 import streamlit as st
 import re
-import nltk 
-nltk.download('punkt')
-nltk.download('wordnet')
-from nltk.tokenize import word_tokenize
-nltk.download('stopwords')
-nltk.download('punkt_tab')
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
+import nltk
 import pickle
 
-# Inisialisasi NLP tools
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+
+
+# Download NLP resources
+nltk.download('punkt')
+nltk.download('punkt_tab')
+nltk.download('wordnet')
+nltk.download('stopwords')
+
+
+# NLP Tools
 stop_words = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
 
-# Fungsi untuk preprocessing teks
+
+# Text Prepocessing
 def preprocess_text(text):
-    cleaned_text = re.sub(r'[^a-zA-Z\s]', '', text.lower())  # Hilangkan karakter non-huruf
-    tokens = word_tokenize(cleaned_text)  # Tokenisasi
-    filtered_tokens = [lemmatizer.lemmatize(word) for word in tokens if word not in stop_words]
+    cleaned_text = re.sub(
+        r'[^a-zA-Z\s]',
+        '',
+        text.lower()
+    )
+    tokens = word_tokenize(cleaned_text)
+    filtered_tokens = [
+        lemmatizer.lemmatize(word)
+        for word in tokens
+        if word not in stop_words
+    ]
     return ' '.join(filtered_tokens)
 
-# Muat vectorizer dan model
+# Load Model
 with open('vectorizer.pkl', 'rb') as file:
     tfidf = pickle.load(file)
 
 with open('sentiment_model.pkl', 'rb') as file:
     model = pickle.load(file)
 
-# Streamlit UI
-st.set_page_config(page_title="IMDb Sentiment Analysis", page_icon=":movie_camera:", layout="wide")
+# Streamlit Config
+st.set_page_config(
+    page_title="IMDb Sentiment Analysis",
+    page_icon="🎬",
+    layout="centered"
+)
+
+
+
+# UI Design 
 st.markdown(
     """
     <style>
-    body {
-        background-color: #f7f7f7;
-        font-family: 'Arial', sans-serif;
+
+    .main {
+        background-color: #f8fafc;
     }
+    
     .title {
-        color: #2e7d32;
-        font-size: 40px;
-        font-weight: bold;
+        text-align:center;
+        font-size:45px;
+        font-weight:800;
+        color:#111827;
     }
-    .description {
-        font-size: 18px;
-        color: #555;
-        margin-bottom: 30px;
+
+    .subtitle {
+        text-align:center;
+        color:#6b7280;
+        font-size:18px;
+        margin-bottom:35px;
     }
-    .button {
-        background-color: #4CAF50;
-        color: white;
-        padding: 15px 32px;
-        font-size: 18px;
-        border-radius: 8px;
-        border: none;
-        cursor: pointer;
+
+    .card {
+        background:white;
+        padding:30px;
+        border-radius:20px;
+        box-shadow:0px 8px 25px rgba(0,0,0,0.08);
     }
-    .button:hover {
-        background-color: #45a049;
+
+    .result-card {
+        background:white;
+        margin-top:25px;
+        padding:30px;
+        border-radius:20px;
+        text-align:center;
+        box-shadow:0px 8px 25px rgba(0,0,0,0.08);
     }
+
+    .positive {
+        color:#16a34a;
+        font-size:35px;
+        font-weight:bold;
+    }
+
+    .negative {
+        color:#dc2626;
+        font-size:35px;
+        font-weight:bold;
+    }
+
     .warning {
-        color: #d9534f;
-        font-weight: bold;
+        color:#dc2626;
+        font-weight:bold;
+        text-align:center;
     }
-    .result {
-        font-size: 22px;
-        font-weight: bold;
-        color: #333;
-        margin-top: 30px;
+
+    div.stButton > button {
+        width:100%;
+        height:50px;
+        border-radius:12px;
+        background:#2563eb;
+        color:white;
+        font-size:18px;
+        font-weight:bold;
+        border:none;
     }
+
+    div.stButton > button:hover {
+        background:#1d4ed8;
+        color:white;
+    }
+
     </style>
-    """, unsafe_allow_html=True
+    """,
+    unsafe_allow_html=True
 )
 
-st.markdown('<p class="title">IMDb SENTIMENT ANALYSIS</p>', unsafe_allow_html=True)
-st.markdown('<p class="description">Enter your movie review to predict whether the sentiment is positive or negative.</p>', unsafe_allow_html=True)
+# Header
+st.markdown(
+    """
+    <div class="title">
+    🎬 IMDb Sentiment Analysis
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
-# Input dari pengguna
-user_input = st.text_area("Write a review in English : ", placeholder="Example: The movie was fantastic!", height=200)
+st.markdown(
+    """
+    <div class="subtitle">
+    A ML application that predicts movie review sentiment
+    using NLP.
 
-if st.button("Predict", key="predict_button"):
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# Input Review
+st.markdown(
+    '<div class="card">',
+    unsafe_allow_html=True
+)
+
+user_input = st.text_area(
+    "✍️ Write your movie review in English",
+    placeholder=
+    "Example: The movie was fantastic, the story was amazing and the acting was great!",
+    height=200
+)
+
+st.markdown(
+    '</div>',
+    unsafe_allow_html=True
+)
+
+# Prediction
+if st.button("🔍 Analyze Sentiment"):
     if user_input:
-        # Preprocessing teks
+        # preprocessing
         cleaned_input = preprocess_text(user_input)
-        
-        # Transform teks ke TF-IDF
-        transformed_input = tfidf.transform([cleaned_input])
-        
-        # Prediksi sentimen
-        prediction = model.predict(transformed_input)[0]
-        sentiment = "Positive" if prediction == 1 else "Negative"
-        
-        # Tampilkan hasil prediksi dengan gaya
-        st.markdown(f'<p class="result">The sentiment of your review is : <span style="color: #4CAF50;">{sentiment}</span></p>', unsafe_allow_html=True)
+
+        # TF-IDF
+        transformed_input = tfidf.transform(
+            [cleaned_input]
+        )
+
+        # prediction
+        prediction = model.predict(
+            transformed_input
+        )[0]
+
+        sentiment = (
+            "Positive"
+            if prediction == 1
+            else
+            "Negative"
+        )
+
+        # result display
+        if sentiment == "Positive":
+            st.markdown(
+                f"""
+                <div class="result-card">
+                    <h3>Prediction Result</h3>
+                    
+                    <div class="positive">
+                    😊 {sentiment}
+                    </div>
+    
+                    <p>
+                    The review indicates a positive sentiment.
+                    </p>
+                </div>
+                
+                """,
+                unsafe_allow_html=True
+            )
+
+        else:
+            st.markdown(
+                f"""
+                <div class="result-card">
+                <h3>Prediction Result</h3>
+
+                <div class="negative">
+                😞 {sentiment}
+                </div>
+
+                <p>
+                The review indicates a negative sentiment.
+                </p>
+                </div>
+                
+                """,
+                unsafe_allow_html=True
+            )
+
     else:
-        st.markdown('<p class="warning">Please enter a review for analysis.</p>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            <p class="warning">
+            ⚠️ Please enter a review before analyzing.
+            </p>
+            """,
+            unsafe_allow_html=True
+
+        )
