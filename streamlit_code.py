@@ -22,10 +22,10 @@ def preprocess_text(text):
     return ' '.join(filtered_tokens)
 
 # Muat vectorizer dan model
-with open('FilmSentiment-NLP_Based-IMDb-Review-Analyzer/vectorizer.pkl', 'rb') as file:
+with open('vectorizer.pkl', 'rb') as file:
     tfidf = pickle.load(file)
 
-with open('FilmSentiment-NLP_Based-IMDb-Review-Analyzer/sentiment_model.pkl', 'rb') as file:
+with open('sentiment_model.pkl', 'rb') as file:
     model = pickle.load(file)
 
 # Streamlit UI
