@@ -3,6 +3,11 @@
 A machine learning web application that predicts the sentiment of movie reviews from IMDb dataset.  
 The application classifies reviews into **Positive** or **Negative** sentiment using Natural Language Processing (NLP) and a trained machine learning model.
 
+## Dataset
+```bash
+https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews
+```
+
 ## 🚀 Features
 
 - Predict movie review sentiment (Positive / Negative)
@@ -50,8 +55,7 @@ Sentiment: Positive
 
 ```
 │
-└── dataset/
-    └── IMDB_reviews.csv
+
 └── screenshots/
     └── app.png
     └── negative_sentiment.png
@@ -87,12 +91,13 @@ The application will display :
 - Negative → if the review has a negative sentiment
 
 ## Web Preview
-**### Main Page
+```### Main Page
 ![App](screenshots/app.png)
 
 ### Prediction Result
 ![Prediction Result](screenshots/negative_sentiment.png)
-![Prediction Result](screenshots/positive_sentiment.png)**
+![Prediction Result](screenshots/positive_sentiment.png)
+```
 
 ## 📄 License 
 
