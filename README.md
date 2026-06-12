@@ -91,13 +91,13 @@ The application will display :
 - Negative → if the review has a negative sentiment
 
 ## Web Preview
-```### Main Page
+### Main Page
 ![App](screenshots/app.png)
 
 ### Prediction Result
 ![Prediction Result](screenshots/negative_sentiment.png)
 ![Prediction Result](screenshots/positive_sentiment.png)
-```
+
 
 ## 📄 License 
 
