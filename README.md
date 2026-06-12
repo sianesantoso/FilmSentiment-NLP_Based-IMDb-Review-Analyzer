@@ -66,22 +66,33 @@ Sentiment: Positive
 ## ▶️ How to Run
 
 ### 1. Clone this repository
-bash
+```bash
 git clone https://github.com/sianesantoso/FilmSentiment-NLP_Based-IMDb-Review-Analyzer.git
+```
 
 ### 2. Install dependencies
-bash
+```bash
 pip install -r requirements.txt
+```
 
 ### 3. Run Streamlit application
-bash
+```bash
 streamlit run app.py
+```
 
 ## 🎯 Prediction Output 
 
 The application will display : 
 - Positive → if the review has a positive sentiment
 - Negative → if the review has a negative sentiment
+
+## Web Preview
+**### Main Page
+![App](screenshots/app.png)
+
+### Prediction Result
+![Prediction Result](screenshots/negative_sentiment.png)
+![Prediction Result](screenshots/positive_sentiment.png)**
 
 ## 📄 License 
 
